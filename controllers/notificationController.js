@@ -21,11 +21,21 @@ exports.createNotification = async (req, res) => {
 exports.getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find();
-    res.json(notifications);
+
+    // Format the date to show only YYYY-MM-DD
+    const formatted = notifications.map(notif => ({
+      _id: notif._id,
+      title: notif.title,
+      message: notif.message,
+      date: notif.date.toISOString().split('T')[0] // Keep only the date part
+    }));
+
+    res.json(formatted);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 
 // Get a specific notification by ID
