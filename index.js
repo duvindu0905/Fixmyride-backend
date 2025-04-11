@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const notificationRoutes = require('./routes/notificationRoutes'); // Correct path to notification routes
 const authRoutes = require('./routes/authRoutes'); // Adjust path if needed
-
+const serverless = require( 'serverless-http');
 
 dotenv.config();
 
@@ -19,5 +19,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/authentications', authRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports.handler = serverless(app);
