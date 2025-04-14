@@ -1,28 +1,34 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const notificationRoutes = require('./routes/notificationRoutes'); 
+const serverless = require('serverless-http');
+const bodyParser = require('body-parser');
 
-const serverless = require( 'serverless-http');
+const notificationRoutes = require('./routes/notificationRoutes');
+const authRoutes = require('./routes/authRoutes');
 const activityRoutes = require('./routes/activityRoutes');
-
 
 dotenv.config();
 
 const app = express();
-app.use(express.json()); // To parse JSON request bodies
 
-// Connect MongoDB
+// ✅ Use body-parser for AWS Lambda compatibility
+app.use(bodyParser.json()); // Replace express.json()
+
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Use the notification routes
+// ✅ Route mounting
 app.use('/api/notifications', notificationRoutes);
-// app.use('/api/authentications', authRoutes);
-app.use('/api/activities', activityRoutes); 
+app.use('/api/activities', activityRoutes);
+app.use('/api', authRoutes);
 
- //const PORT = process.env.PORT || 5000;
-//app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// ✅ 404 fallback logger (optional)
+app.use((req, res, next) => {
+  console.log(`⚠️ Unhandled route: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ message: 'Route not found' });
+});
 
+// ✅ Export handler for Lambda
 module.exports.handler = serverless(app);
