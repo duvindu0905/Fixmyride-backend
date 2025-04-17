@@ -1,6 +1,6 @@
 const Notification = require('../models/notificationModel');
 
-// Create a new notification
+
 exports.createNotification = async (req, res) => {
   try {
     const { title, message, day } = req.body;
@@ -17,12 +17,12 @@ exports.createNotification = async (req, res) => {
   }
 };
 
-// Get all notifications
+
 exports.getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find();
 
-    // Format the date to show only YYYY-MM-DD
+    //  date is in YYYY-MM-DD
     const formatted = notifications.map(notif => ({
       _id: notif._id,
       title: notif.title,

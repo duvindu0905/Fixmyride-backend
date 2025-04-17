@@ -8,32 +8,33 @@ const notificationRoutes = require('./routes/notificationRoutes');
 const authRoutes = require('./routes/authRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const profileRoutes = require('./routes/profileRoutes');
+const searchRoutes = require('./routes/searchRoute');
 
 
 
 dotenv.config();
 const app = express();
 
-app.use(bodyParser.json()); // ✅ use for Lambda body parsing
+app.use(bodyParser.json()); // use for Lambda body parsing
 
-// ✅ Connect to MongoDB
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// ✅ Mount routes
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api', authRoutes);
 app.use('/api', profileRoutes);
+app.use('/api/search', searchRoutes);
 
-// ✅ 404 handler
+
 app.use((req, res, next) => {
   console.log(`⚠️ Unhandled route: ${req.method} ${req.originalUrl}`);
   res.status(404).json({ message: 'Route not found' });
 });
 
-// ✅ Export Lambda handler with rawBody support
+// Lambda handler 
 module.exports.handler = serverless(app, {
   request: (req, event, context) => {
     req.rawBody = event.body;

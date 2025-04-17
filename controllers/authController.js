@@ -2,13 +2,13 @@ const User = require('../models/user');
 const Profile = require('../models/Profile');
 const { sendOtpEmail } = require('../utils/sesMailer');
 
-// ✅ POST /api/send-otp
+
 exports.sendOtp = async (req, res) => {
   console.log("✅ /api/send-otp route hit");
 
   let email;
   try {
-    const parsed = JSON.parse(req.rawBody || '{}'); // ✅ fallback if undefined
+    const parsed = JSON.parse(req.rawBody || '{}'); 
     email = parsed.email;
   } catch (err) {
     console.error("❌ JSON parsing failed:", err);

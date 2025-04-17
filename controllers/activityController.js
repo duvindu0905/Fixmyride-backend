@@ -1,7 +1,7 @@
 // controllers/activityController.js
 const Activity = require('../models/activityModel');
 
-// GET /api/activities/completed
+
 const getCompletedActivities = async (req, res) => {
   try {
     const activities = await Activity.find().sort({ date: -1 });
@@ -12,7 +12,7 @@ const getCompletedActivities = async (req, res) => {
   }
 };
 
-// POST /api/activities
+
 const addActivity = async (req, res) => {
   const { bookingId, centerName, description, date, price } = req.body;
 

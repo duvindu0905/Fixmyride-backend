@@ -26,7 +26,7 @@ exports.updateProfile = async (req, res) => {
   try {
     const updated = await Profile.findOneAndUpdate(
       { email },
-      { firstName, lastName, phoneNumber }, // ✅ Only update allowed fields
+      { firstName, lastName, phoneNumber }, 
       { new: true }
     );
 
