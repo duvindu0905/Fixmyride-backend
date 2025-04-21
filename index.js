@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
-
+const breakdownRoutes = require("./routes/breakdownRoute");
 const notificationRoutes = require('./routes/notificationRoutes');
 const authRoutes = require('./routes/authRoutes');
 const activityRoutes = require('./routes/activityRoutes');
@@ -27,7 +27,7 @@ app.use('/api/activities', activityRoutes);
 app.use('/api', authRoutes);
 app.use('/api', profileRoutes);
 app.use('/api/search', searchRoutes);
-
+app.use("/api/breakdown", breakdownRoutes);
 
 app.use((req, res, next) => {
   console.log(`⚠️ Unhandled route: ${req.method} ${req.originalUrl}`);
@@ -35,11 +35,18 @@ app.use((req, res, next) => {
 });
 
 // Lambda handler 
-module.exports.handler = serverless(app, {
-  request: (req, event, context) => {
-    req.rawBody = event.body;
-  }
-});
+// module.exports.handler = serverless(app, {
+//   request: (req, event, context) => {
+//     try {
+//       if (event.body && typeof event.body === "string") {
+//         req.body = JSON.parse(event.body);
+//       }
+//     } catch (e) {
+//       console.error("❌ Failed to parse body:", e);
+//     }
+//   }
+// });
 
-// const PORT = process.env.PORT || 8080;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
