@@ -1,4 +1,3 @@
-// controllers/activityController.js
 const Activity = require('../models/activityModel');
 
 

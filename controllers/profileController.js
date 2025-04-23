@@ -15,7 +15,7 @@ exports.getProfileByEmail = async (req, res) => {
   }
 };
 
-// ✅ PUT /api/profile
+
 exports.updateProfile = async (req, res) => {
   const { email, firstName, lastName, phoneNumber } = req.body;
 

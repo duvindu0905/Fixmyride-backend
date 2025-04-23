@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Define the notification schema
+
 const notificationSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -16,6 +16,6 @@ const notificationSchema = new mongoose.Schema({
   },
 });
 
-// Create and export the model
+
 const Notification = mongoose.model('Notification', notificationSchema);
 module.exports = Notification;

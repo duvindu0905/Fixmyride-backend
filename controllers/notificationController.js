@@ -38,7 +38,7 @@ exports.getNotifications = async (req, res) => {
 
 
 
-// Get a specific notification by ID
+
 exports.getNotificationById = async (req, res) => {
   try {
     const notification = await Notification.findById(req.params.id);
@@ -51,7 +51,7 @@ exports.getNotificationById = async (req, res) => {
   }
 };
 
-// Update a notification by ID
+
 exports.updateNotification = async (req, res) => {
   try {
     const { title, message } = req.body;
@@ -59,7 +59,7 @@ exports.updateNotification = async (req, res) => {
     const notification = await Notification.findByIdAndUpdate(
       req.params.id,
       { title, message },
-      { new: true } // Return the updated notification
+      { new: true } 
     );
 
     if (!notification) {
@@ -72,7 +72,7 @@ exports.updateNotification = async (req, res) => {
   }
 };
 
-// Delete a notification by ID
+
 exports.deleteNotification = async (req, res) => {
   try {
     const notification = await Notification.findByIdAndDelete(req.params.id);
